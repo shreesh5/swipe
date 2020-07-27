@@ -24,16 +24,36 @@ const Deck = ({ data, renderCard }) => {
 
     const [pResonder, setPResponder] = useState(panResponder)
     
+    const getCardStyle = () => {
+        return {
+            ...position.getLayout(),
+            transform: [{ rotate: '-45deg' }]
+        }
+    }
+
     const renderCards = () => {
-        return data.map(item => {
+        return data.map((item, index) => {
+            
+            if (index === 4) {
+                return (
+                    <Animated.View
+                        key={item.id}
+                        {...pResonder.panHandlers}
+                        style={getCardStyle()}
+                    >
+                        {renderCard(item)}
+                    </Animated.View>
+                )
+            }
+            
             return renderCard(item)
         })
     }
     
     return (
-        <Animated.View {...pResonder.panHandlers} style={position.getLayout()}>
+        <View>
             {renderCards()}
-        </Animated.View>
+        </View>
     )
 }
 
